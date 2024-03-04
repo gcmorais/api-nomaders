@@ -1,33 +1,38 @@
 import { PrismaClient } from "@prisma/client";
 import fastify from "fastify";
 import { z } from "zod";
+import { userRoutes } from "./routes/user.routes";
 
 const app = fastify();
 
 const prisma = new PrismaClient();
 
-app.get("/users", async () => {
-  const users = await prisma.user.findMany();
+// app.get("/users", async () => {
+//   const users = await prisma.user.findMany();
 
-  return { users };
+//   return { users };
+// });
+
+app.register(userRoutes, {
+  prefix: "/users",
 });
 
-app.post("/users", async (request, reply) => {
-  const createUserSchema = z.object({
-    name: z.string(),
-    email: z.string().email(),
-  });
-  const { name, email } = createUserSchema.parse(request.body);
+// app.post("/users", async (request, reply) => {
+//   const createUserSchema = z.object({
+//     name: z.string(),
+//     email: z.string().email(),
+//   });
+//   const { name, email } = createUserSchema.parse(request.body);
 
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-    },
-  });
+//   await prisma.user.create({
+//     data: {
+//       name,
+//       email,
+//     },
+//   });
 
-  return reply.status(201).send();
-});
+//   return reply.status(201).send();
+// });
 
 app
   .listen({
