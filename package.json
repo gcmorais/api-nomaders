@@ -1,0 +1,12 @@
+{
+  "name": "api-nomaders",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/gcmorais/api-nomaders.git",
+  "author": "Guilherme Morais <guilhermeclarodemorais@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "prisma": "^5.10.2"
+  }
+}
