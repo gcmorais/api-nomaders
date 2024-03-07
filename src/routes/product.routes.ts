@@ -6,7 +6,7 @@ import {
   remove,
 } from "../controllers/product.controller";
 
-const productRoutes = (app) => {
+const productRoutes = (app: any) => {
   app.post("/product", create);
   app.get("/product", get);
   app.get("/product/:id", getId);

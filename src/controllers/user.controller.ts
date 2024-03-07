@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { Request, Response } from "express";
 import { userValidation } from "../validations/user.validation";
 import {
   createUser,
@@ -8,7 +9,7 @@ import {
   deleteUser,
 } from "../repositories/user.repository";
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
   try {
     await userValidation.validate(req.body);
 
@@ -22,7 +23,7 @@ export const create = async (req, res) => {
   }
 };
 
-export const get = async (req, res) => {
+export const get = async (req: Request, res: Response) => {
   try {
     const users = await getAll();
     res.status(200).send(users);
@@ -31,7 +32,7 @@ export const get = async (req, res) => {
   }
 };
 
-export const getId = async (req, res) => {
+export const getId = async (req: Request, res: Response) => {
   try {
     const user = await getById(req.params.id);
     res.status(200).send(user);
@@ -41,7 +42,7 @@ export const getId = async (req, res) => {
   }
 };
 
-export const update = async (req, res) => {
+export const update = async (req: Request, res: Response) => {
   try {
     const user = await updateUser(req.params.id, req.body);
     res.status(200).send(user);
@@ -50,7 +51,7 @@ export const update = async (req, res) => {
   }
 };
 
-export const remove = async (req, res) => {
+export const remove = async (req: Request, res: Response) => {
   try {
     await deleteUser(req.params.id);
     res.status(200).send();

@@ -1,4 +1,5 @@
 import { productValidation } from "../validations/product.validation";
+import { Request, Response } from "express";
 import {
   createProduct,
   getAll,
@@ -7,7 +8,7 @@ import {
   deleteProduct,
 } from "../repositories/product.repository";
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
   try {
     await productValidation.validate(req.body);
     const product = await createProduct(req.body);
@@ -17,7 +18,7 @@ export const create = async (req, res) => {
   }
 };
 
-export const get = async (req, res) => {
+export const get = async (req: Request, res: Response) => {
   try {
     const products = await getAll();
     res.status(200).send(products);
@@ -26,7 +27,7 @@ export const get = async (req, res) => {
   }
 };
 
-export const getId = async (req, res) => {
+export const getId = async (req: Request, res: Response) => {
   try {
     const product = await getById(req.params.id);
     res.status(200).send(product);
@@ -35,7 +36,7 @@ export const getId = async (req, res) => {
   }
 };
 
-export const update = async (req, res) => {
+export const update = async (req: Request, res: Response) => {
   try {
     const product = await updateProduct(req.params.id, req.body);
     res.status(200).send(product);
@@ -44,7 +45,7 @@ export const update = async (req, res) => {
   }
 };
 
-export const remove = async (req, res) => {
+export const remove = async (req: Request, res: Response) => {
   try {
     await deleteProduct(req.params.id);
     res.status(200).send();
