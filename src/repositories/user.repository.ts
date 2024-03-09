@@ -34,6 +34,7 @@ export const getById = async (id: string) => {
       password: false,
       createdAt: true,
       updatedAt: true,
+      Products: true,
     },
   });
   return user;
