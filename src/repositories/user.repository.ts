@@ -11,6 +11,7 @@ export const createUser = async (data: User) => {
       password: false,
       createdAt: true,
       updatedAt: true,
+      Products: true,
     },
   });
   return user;

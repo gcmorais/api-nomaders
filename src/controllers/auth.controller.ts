@@ -1,49 +1,30 @@
 import { prisma } from "../services/prisma";
-import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
+import { sign } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 export const authenticate = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    if (!(email && password)) {
-      return res
-        .status(400)
-        .send({ message: "Email e senha são obrigatórios." });
-    }
+  const user = await prisma.user.findUnique({ where: { email } });
 
-    const user = await prisma.user.findFirst({
-      where: {
-        email,
-      },
-    });
-
-    if (!user) {
-      return res
-        .status(401)
-        .send({ message: "Email e/ou senha estão incorretos." });
-    }
-
-    if (user && bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email,
-          name: user.name,
-        },
-        String(process.env.TOKEN_KEY),
-        {
-          expiresIn: "3h",
-        }
-      );
-      return res.status(200).send({ token });
-    } else {
-      return res
-        .status(400)
-        .send({ message: "Email e/ou senha estão incorretos" });
-    }
-  } catch (e) {
-    res.status(400).send(e);
+  if (!user) {
+    return res.json({ error: "user not found" });
   }
+
+  const isPasswordValid = bcrypt.compareSync(password, user.password);
+
+  if (!isPasswordValid) {
+    return res
+      .status(400)
+      .send({ message: "Email e/ou senha estão incorretos" });
+  }
+
+  const token = sign({ id: user.id }, String(process.env.TOKEN_KEY), {
+    expiresIn: "3h",
+  });
+
+  const { id } = user;
+
+  return res.status(200).send({ user: { id }, token });
 };
