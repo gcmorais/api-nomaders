@@ -44,6 +44,9 @@ export const getId = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    req.body.password = hashPassword;
+
     const user = await updateUser(req.params.id, req.body);
     res.status(200).send(user);
   } catch (e) {
