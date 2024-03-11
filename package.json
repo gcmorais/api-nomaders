@@ -5,9 +5,13 @@
   "repository": "https://github.com/gcmorais/api-nomaders.git",
   "author": "Guilherme Morais <guilhermeclarodemorais@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
     "start": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node ./src/index.ts\"",
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "node build/src/index.js"
   },
   "dependencies": {
     "@prisma/client": "^5.10.2",
